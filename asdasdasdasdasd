@@ -1,0 +1,89 @@
+cars = [];
+
+function car(markatipus, kategoria, napiar, klima, automatavaltos, kep) {
+    this.markatipus = markatipus;
+    this.kategoria = kategoria;
+    this.napiar = napiar;
+    this.klima = klima;
+    this.automatavaltos = automatavaltos;
+    this.kep = kep;
+}
+
+cars.push(new car("Citroen C1", "Takarékos", 12000, true, false,"01.jpg"));
+cars.push(new car("Fiat Panda", "Takarékos", 10000, false, false,"01.jpg"));
+cars.push(new car("Mazda 3", "Compact", 16000, true, true,"01.jpg"));
+cars.push(new car("Opel Astra", "Compact", 16000, true, false,"01.jpg"));
+cars.push(new car("Ford Focus", "Compact", 14000, false, false,"01.jpg"));
+cars.push(new car("VW Turan", "Családi", 14000, true, false,"01.jpg"));
+cars.push(new car("Mazda MX-5", "Családi", 18000, true, false,"01.jpg"));
+cars.push(new car("Citroen Xsara Picasso", "Családi", 12000, false, false,"01.jpg"));
+cars.push(new car("VW Artheon", "Luxus", 40000, true, false,"01.jpg"));
+cars.push(new car("BMW i7", "Luxus", 45000, true, true,"01.jpg"));
+cars.push(new car("Peugeot Boxer", "Kisteher", 20000, false, false,"01.jpg"));
+cars.push(new car("Ford Transit", "Kisteher", 22000, true, false,"01.jpg"));
+cars.push(new car("Renault Master", "Kisteher", 30000, true, false,"01.jpg"));
+
+function frissit() {
+    var tablazat1 = '';
+    for (let i = 0; i < cars.length; i++) {
+        vanklima = "Van";
+        if (cars[i].klima != true) {
+            vanklima = "Nincs";
+        }
+        automatavaltose = "Igen";
+        if (cars[i].automatavaltos != true) {
+            automatavaltose = "Nem";
+        }
+        osszes = cars[i].kategoria;
+        if (document.getElementById("e8").value != "Összes") {
+            osszes = document.getElementById("e8").value;
+        }
+        if (document.getElementById("e5").value >= cars[i].napiar && osszes == cars[i].kategoria && cars[i].markatipus.includes(document.getElementById("e3").value) == true) {
+            
+            if (document.getElementById("e6").checked == cars[i].klima || document.getElementById("e6").indeterminate == true) {
+                if (document.getElementById("e7").checked == cars[i].automatavaltos || document.getElementById("e7").indeterminate == true) {
+
+                    tablazat1 += `<div class="col-sm-4" id="auto"><div class="col-5"><img src="${cars[i].kep}" height="200px"></div>
+                    <div class="col-12" style="text-align: center;"><h4>${cars[i].markatipus}</h4></div>
+                    <div class="col-12">
+                        <ul class="list-group">
+                            <li class="list-group-item">Napiár: ${cars[i].napiar} Ft</li>
+                            <li class="list-group-item">Kategória: ${cars[i].kategoria}</li>
+                            <li class="list-group-item">Klíma: ${vanklima}</li>
+                            <li class="list-group-item">Autómata váltós: ${automatavaltose}</li>
+                        </ul>
+                    </div>
+                    </div>`;
+
+                }
+            }
+        }
+    }
+    
+    document.getElementById("tb").innerHTML = tablazat1
+}
+
+function alapar() {
+    minar = 99999999999;
+    maxar = 0;
+    for (let i = 0; i < cars.length; i++) {
+        if (minar > cars[i].napiar) {
+            minar = cars[i].napiar;
+        }
+        if (maxar < cars[i].napiar) {
+            maxar = cars[i].napiar;
+        }
+    }
+    document.getElementById("e5").max = maxar;
+    document.getElementById("e5").min = minar;
+    document.getElementById('e5').value = minar + ((maxar - minar) / 2);
+
+    var checkbox = document.getElementById("e6");
+    checkbox.indeterminate = true;
+    var checkbox = document.getElementById("e7");
+    checkbox.indeterminate = true;
+}
+
+function ar() {
+    document.getElementById("l1").innerHTML = `Max ár (${document.getElementById("e5").value} forint)`;
+}
